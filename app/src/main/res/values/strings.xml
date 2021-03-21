@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">MovTik</string>
+    <string name="register_movie">Register Movie</string>
+    <string name="display_movies">Display Movies</string>
+    <string name="favourites">Favourites</string>
+    <string name="edit_movies">Edit Movies</string>
+    <string name="search">Search</string>
+    <string name="ratings">Ratings</string>
+    <string name="student_details">Yasitha Gamage\n W1761101 | 2019429</string>
 </resources>

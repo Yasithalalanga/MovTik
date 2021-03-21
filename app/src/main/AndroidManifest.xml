@@ -9,6 +9,67 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MovTik">
+        <activity
+            android:name=".RegisterMovieActivity"
+            android:label="Register Movie"
+            android:parentActivityName=".MainActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.livecodex.movtik.MainActivity" />
+
+        </activity>
+        <activity
+            android:name=".DisplayMovieActivity"
+            android:label="Display Movies"
+            android:parentActivityName=".MainActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.livecodex.movtik.MainActivity" />
+
+        </activity>
+        <activity
+            android:name=".FavouritesActivity"
+            android:label="Favourite Movies"
+            android:parentActivityName=".MainActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.livecodex.movtik.MainActivity" />
+
+        </activity>
+        <activity
+            android:name=".EditMovieActivity"
+            android:label="Edit Movie"
+            android:parentActivityName=".MainActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.livecodex.movtik.MainActivity" />
+
+        </activity>
+        <activity
+            android:name=".SearchActivity"
+            android:label="Search Movie"
+            android:parentActivityName=".MainActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.livecodex.movtik.MainActivity" />
+
+        </activity>
+        <activity
+            android:name=".RatingActivity"
+            android:label="Rating Movie"
+            android:parentActivityName=".MainActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.livecodex.movtik.MainActivity" />
+
+        </activity>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
