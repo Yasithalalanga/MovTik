@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.livecodex.movtik.services.MovieData;
 
@@ -23,6 +25,14 @@ public class EditDetailsActivity extends AppCompatActivity {
     private static final String[] FROM = { _ID, MOVIE_TITLE};
     private static final String ORDER_BY = MOVIE_TITLE + " ASC";
     private MovieData movieData;;
+    private String editMovie;
+
+    EditText movieTitleInput;
+    EditText movieYearInput;
+    EditText movieDirectorInput;
+    EditText movieActorInput;
+    EditText movieRatingInput;
+    EditText movieReviewInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,34 +40,31 @@ public class EditDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_details);
 
         Intent selectedIntent = getIntent();
-        String editMovie = selectedIntent.getStringExtra("SelectedMovie");
+        editMovie = selectedIntent.getStringExtra("SelectedMovie");
 
         movieData = new MovieData(this);
+        updateFields(getMovieDetails());
     }
 
-    private Cursor getMovies(){
-
-        String[] updateArgs = new String[1];
-        updateArgs[0] = String.valueOf(1);
+    private Cursor getMovieDetails(){
 
         SQLiteDatabase database = movieData.getReadableDatabase();
-        Cursor cursor = database.query(TABLE_NAME, FROM,MOVIE_FAVOURITES +" =? ", updateArgs, null, null, ORDER_BY);
+        Cursor cursor = database.query(TABLE_NAME, null,MOVIE_TITLE +" =? ", new String[]{editMovie}, null, null, ORDER_BY);
         return cursor;
     }
 
-    private List<String> favList(Cursor cursor){
-        List<String> movieTitles = new ArrayList<>();
+    private void updateFields(Cursor cursor){
+        boolean available = false;
 
-        if(cursor.moveToFirst()){
-            do {
-                String movieTitle = cursor.getString(1);
-                movieTitles.add(movieTitle);
-            }while (cursor.moveToNext());
+        while (cursor.moveToNext()){
+            String movieTitle = cursor.getString(1);
+
         }
 
+        if (available){
+            Toast.makeText(getApplicationContext(),"hello", Toast.LENGTH_SHORT).show();
+        }
         cursor.close();
-
-        return movieTitles;
 
     }
 
