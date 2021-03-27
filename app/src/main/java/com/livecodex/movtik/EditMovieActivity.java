@@ -2,6 +2,7 @@ package com.livecodex.movtik;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -39,11 +40,13 @@ public class EditMovieActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, movieList(getMovies()));
         editMovieList.setAdapter(adapter);
 
-        editMovieList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        editMovieList.setOnItemClickListener((adapterView, view, i, l) -> {
 
-            }
+            String selectedMovie = (String) editMovieList.getItemAtPosition(i);
+            Intent editIntent = new Intent(EditMovieActivity.this, EditDetailsActivity.class);
+            editIntent.putExtra("SelectedMovie", selectedMovie);
+            startActivity(editIntent);
+
         });
     }
 
