@@ -2,6 +2,8 @@ package com.livecodex.movtik;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.provider.BaseColumns._ID;
+import static com.livecodex.movtik.services.Constants.MOVIE_FAVOURITES;
 import static com.livecodex.movtik.services.Constants.MOVIE_TITLE;
 import static com.livecodex.movtik.services.Constants.TABLE_NAME;
 
@@ -27,8 +30,6 @@ public class DisplayMovieActivity extends AppCompatActivity {
     private MovieData movieData;
 
     private ListView movieTitlesList;
-    private TextView movieTitle;
-    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,48 +38,69 @@ public class DisplayMovieActivity extends AppCompatActivity {
 
         movieData = new MovieData(this);
         movieTitlesList = findViewById(R.id.movieTitlesList);
-        movieTitle = findViewById(R.id.movieTitle);
 
-        movieTitle.setText(movieList(getMovies()).get(0));
+        showMovies();
+    }
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, movieList(getMovies()));
+    private void showMovies() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, movieList(getMovies()));
         movieTitlesList.setAdapter(adapter);
-
     }
 
     private Cursor getMovies(){
+
+        String[] updateArgs = new String[1];
+        updateArgs[0] = String.valueOf(0);
+
         SQLiteDatabase database = movieData.getReadableDatabase();
-        Cursor cursor = database.query(TABLE_NAME, FROM,null, null, null, null, ORDER_BY);
+        Cursor cursor = database.query(TABLE_NAME, FROM,MOVIE_FAVOURITES +" =? ", updateArgs, null, null, ORDER_BY);
         return cursor;
     }
 
     private List<String> movieList(Cursor cursor){
         List<String> movieTitles = new ArrayList<>();
 
-        while (cursor.moveToNext()){
-            String movieTitle = cursor.getString(1);
-            movieTitles.add(movieTitle);
+        if(cursor.moveToFirst()){
+            do {
+                String movieTitle = cursor.getString(1);
+                movieTitles.add(movieTitle);
+            }while (cursor.moveToNext());
         }
+
         cursor.close();
 
         return movieTitles;
 
     }
 
-    public void addToFavourites(View view) {
+    public void updateTable(String movieName, boolean value){
+
+        String[] whereArgs = new String[1];
+        whereArgs[0] = movieName;
+
+        try {
+            SQLiteDatabase database = movieData.getReadableDatabase();
+            ContentValues updatedValues = new ContentValues();
+            updatedValues.put(MOVIE_FAVOURITES, value);
+            database.updateWithOnConflict(TABLE_NAME,updatedValues,MOVIE_TITLE + " =? ",whereArgs,0);
+
+        }finally {
+            movieData.close();
+        }
     }
 
-//    public void addToFavourites(View view) {
-//
-//        String itemSelected = "Item : \n";
-//
-//        for(int item = 0; item < movieTitlesList.getCount(); item++){
-//            if(movieTitlesList.isItemChecked(item)){
-//                itemSelected += movieTitlesList.getItemAtPosition(item) + "\n";
-//            }
-//        }
-//
-//        Toast.makeText(getApplicationContext(), itemSelected, Toast.LENGTH_SHORT).show();
-//
-//    }
+    public void addToFavourites(View view) {
+
+        for(int item = 0; item < movieTitlesList.getCount(); item++){
+            if(movieTitlesList.isItemChecked(item)){
+                updateTable((String) movieTitlesList.getItemAtPosition(item),true);
+            }
+        }
+        showMovies();
+
+        Intent favouritesIntent = new Intent(DisplayMovieActivity.this, FavouritesActivity.class);
+        startActivity(favouritesIntent);
+        finish();
+    }
+
 }

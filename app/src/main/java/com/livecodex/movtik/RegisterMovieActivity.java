@@ -17,6 +17,7 @@ import com.livecodex.movtik.services.MovieData;
 import static android.provider.BaseColumns._ID;
 import static com.livecodex.movtik.services.Constants.MOVIE_ACTORS;
 import static com.livecodex.movtik.services.Constants.MOVIE_DIRECTOR;
+import static com.livecodex.movtik.services.Constants.MOVIE_FAVOURITES;
 import static com.livecodex.movtik.services.Constants.MOVIE_RATING;
 import static com.livecodex.movtik.services.Constants.MOVIE_REVIEW;
 import static com.livecodex.movtik.services.Constants.MOVIE_TITLE;
@@ -50,7 +51,7 @@ public class RegisterMovieActivity extends AppCompatActivity {
 
     }
 
-    // Getting data from tht user and saving it in the sqlite database
+    // Getting data from tht user and saving it in the sqLite database
     public void saveData(View view) {
 
         String movieTitle = movieTitleInput.getText().toString();
@@ -62,6 +63,13 @@ public class RegisterMovieActivity extends AppCompatActivity {
 
         registerMovie(movieTitle, movieYear, movieDirector, movieActors, movieRating, movieReview);
         Toast.makeText(getApplicationContext(), "Movie Registered Successfully !!", Toast.LENGTH_SHORT).show();
+
+        movieYearInput.setText("");
+        movieActorInput.setText("");
+        movieTitleInput.setText("");
+        movieRatingInput.setText("");
+        movieReviewInput.setText("");
+        movieDirectorInput.setText("");
 
     }
 
@@ -76,6 +84,7 @@ public class RegisterMovieActivity extends AppCompatActivity {
             values.put(MOVIE_ACTORS, movieActors);
             values.put(MOVIE_RATING,movieRating);
             values.put(MOVIE_REVIEW,movieReview);
+            values.put(MOVIE_FAVOURITES, false);
             database.insertOrThrow(TABLE_NAME, null, values);
         }finally {
             movieData.close();

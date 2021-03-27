@@ -11,5 +11,6 @@ public interface Constants extends BaseColumns {
     String MOVIE_ACTORS = "actors";
     String MOVIE_RATING = "rating";
     String MOVIE_REVIEW = "review";
+    String MOVIE_FAVOURITES= "favorite";
 
 }
