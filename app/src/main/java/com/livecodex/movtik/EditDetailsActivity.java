@@ -2,10 +2,12 @@ package com.livecodex.movtik;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,8 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.provider.BaseColumns._ID;
+import static com.livecodex.movtik.services.Constants.MOVIE_ACTORS;
+import static com.livecodex.movtik.services.Constants.MOVIE_DIRECTOR;
 import static com.livecodex.movtik.services.Constants.MOVIE_FAVOURITES;
+import static com.livecodex.movtik.services.Constants.MOVIE_RATING;
+import static com.livecodex.movtik.services.Constants.MOVIE_REVIEW;
 import static com.livecodex.movtik.services.Constants.MOVIE_TITLE;
+import static com.livecodex.movtik.services.Constants.MOVIE_YEAR;
 import static com.livecodex.movtik.services.Constants.TABLE_NAME;
 
 public class EditDetailsActivity extends AppCompatActivity {
@@ -26,6 +33,7 @@ public class EditDetailsActivity extends AppCompatActivity {
     private static final String ORDER_BY = MOVIE_TITLE + " ASC";
     private MovieData movieData;;
     private String editMovie;
+    private String currentMovieId;
 
     EditText movieTitleInput;
     EditText movieYearInput;
@@ -42,6 +50,13 @@ public class EditDetailsActivity extends AppCompatActivity {
         Intent selectedIntent = getIntent();
         editMovie = selectedIntent.getStringExtra("SelectedMovie");
 
+        movieTitleInput = findViewById(R.id.editMovieTitle_tf);
+        movieYearInput = findViewById(R.id.editMovieYear_tf);
+        movieDirectorInput = findViewById(R.id.editMovieDirector_tf);
+        movieActorInput = findViewById(R.id.editMovieActors_tf);
+        movieRatingInput = findViewById(R.id.editMovieRating_tf);
+        movieReviewInput = findViewById(R.id.editMovieReview_tf);
+
         movieData = new MovieData(this);
         updateFields(getMovieDetails());
     }
@@ -54,18 +69,59 @@ public class EditDetailsActivity extends AppCompatActivity {
     }
 
     private void updateFields(Cursor cursor){
-        boolean available = false;
 
         while (cursor.moveToNext()){
+            currentMovieId = String.valueOf(cursor.getLong(0));
             String movieTitle = cursor.getString(1);
+            String movieYear = cursor.getString(2);
+            String movieDirector = cursor.getString(3);
+            String movieActors = cursor.getString(4);
+            String movieRating = cursor.getString(5);
+            String movieReview = cursor.getString(6);
+
+            movieTitleInput.setText(movieTitle);
+            movieYearInput.setText(movieYear);
+            movieDirectorInput.setText(movieDirector);
+            movieActorInput.setText(movieActors);
+            movieRatingInput.setText(movieRating);
+            movieReviewInput.setText(movieReview);
 
         }
 
-        if (available){
-            Toast.makeText(getApplicationContext(),"hello", Toast.LENGTH_SHORT).show();
-        }
         cursor.close();
 
     }
 
+    public void updateMovieDetails(View view) {
+
+        String movieTitle = movieTitleInput.getText().toString();
+        String movieYear = movieYearInput.getText().toString();
+        String movieDirector = movieDirectorInput.getText().toString();
+        String movieActors = movieActorInput.getText().toString();
+        int movieRating = Integer.parseInt(movieRatingInput.getText().toString());
+        String movieReview = movieReviewInput.getText().toString();
+
+        updateMovie(movieTitle, movieYear, movieDirector, movieActors, movieRating, movieReview);
+        Toast.makeText(getApplicationContext(), "Movie Registered Successfully !!", Toast.LENGTH_SHORT).show();
+
+    }
+
+    private void updateMovie(String movieTitle, String movieYear, String movieDirector, String movieActors, int movieRating, String movieReview) {
+
+        try {
+            SQLiteDatabase database = movieData.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(MOVIE_TITLE, movieTitle);
+            values.put(MOVIE_YEAR, movieYear);
+            values.put(MOVIE_DIRECTOR, movieDirector);
+            values.put(MOVIE_ACTORS, movieActors);
+            values.put(MOVIE_RATING,movieRating);
+            values.put(MOVIE_REVIEW,movieReview);
+            database.updateWithOnConflict(TABLE_NAME,values,_ID + " =? ",new String[]{currentMovieId},0);
+
+        }finally {
+            movieData.close();
+        }
+
+    }
 }

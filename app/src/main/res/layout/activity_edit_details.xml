@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/movieTitle_tf"
+        android:id="@+id/editMovieTitle_tf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -31,10 +31,10 @@
         android:hint="Movie Title"
         android:inputType="textShortMessage|textLongMessage|text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_headline" />
+        app:layout_constraintTop_toBottomOf="@+id/editMovie_headline" />
 
     <EditText
-        android:id="@+id/movieYear_tf"
+        android:id="@+id/editMovieYear_tf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -44,10 +44,10 @@
         android:hint="Movie Year"
         android:inputType="date"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movieTitle_tf" />
+        app:layout_constraintTop_toBottomOf="@+id/editMovieTitle_tf" />
 
     <EditText
-        android:id="@+id/movieDirector_tf"
+        android:id="@+id/editMovieDirector_tf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -57,10 +57,10 @@
         android:hint="Movie Director"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movieYear_tf" />
+        app:layout_constraintTop_toBottomOf="@+id/editMovieYear_tf" />
 
     <EditText
-        android:id="@+id/movieActors_tf"
+        android:id="@+id/editMovieActors_tf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -71,10 +71,10 @@
         android:hint="Movie Actors"
         android:inputType="textMultiLine"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movieDirector_tf" />
+        app:layout_constraintTop_toBottomOf="@+id/editMovieDirector_tf" />
 
     <EditText
-        android:id="@+id/movieRating_tf"
+        android:id="@+id/editMovieRating_tf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -84,10 +84,10 @@
         android:hint="Movie Rating (1 -10)"
         android:inputType="numberSigned"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movieActors_tf" />
+        app:layout_constraintTop_toBottomOf="@+id/editMovieActors_tf" />
 
     <EditText
-        android:id="@+id/movieReview_tf"
+        android:id="@+id/editMovieReview_tf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -98,7 +98,7 @@
         android:hint="Movie Review"
         android:inputType="textMultiLine"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movieRating_tf" />
+        app:layout_constraintTop_toBottomOf="@+id/editMovieRating_tf" />
 
     <Button
         android:id="@+id/save_btn"
@@ -107,6 +107,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:text="Update"
+        android:onClick="updateMovieDetails"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

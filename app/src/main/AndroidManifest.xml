@@ -9,7 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MovTik">
-        <activity android:name=".EditDetailsActivity"></activity>
+        <activity
+            android:name=".EditDetailsActivity"
+            android:label="Register Movie"
+            android:parentActivityName=".EditMovieActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.livecodex.movtik.EditMovieActivity" />
+        </activity>
         <activity
             android:name=".RegisterMovieActivity"
             android:label="Register Movie"

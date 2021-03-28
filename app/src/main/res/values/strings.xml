@@ -10,4 +10,5 @@
     <string name="add_to_favourites">Add to Favourites</string>
     <string name="favourites">Favourites</string>
     <string name="save">save</string>
+    <string name="lookup">lookup</string>
 </resources>
