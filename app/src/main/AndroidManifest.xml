@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MovTik">
         <activity
+            android:name=".RatingResultActivity"
+            android:label="Movie Details"
+            android:parentActivityName=".RatingActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.livecodex.movtik.RatingActivity" />
+
+        </activity>
+        <activity
             android:name=".EditDetailsActivity"
             android:label="Register Movie"
             android:parentActivityName=".EditMovieActivity">
