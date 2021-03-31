@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class EditDetailsActivity extends AppCompatActivity {
     EditText movieActorInput;
     EditText movieRatingInput;
     EditText movieReviewInput;
+    RatingBar movieRatingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class EditDetailsActivity extends AppCompatActivity {
         movieActorInput = findViewById(R.id.editMovieActors_tf);
         movieRatingInput = findViewById(R.id.editMovieRating_tf);
         movieReviewInput = findViewById(R.id.editMovieReview_tf);
+        movieRatingBar = findViewById(R.id.ratingBar);
 
         movieData = new MovieData(this);
         updateFields(getMovieDetails());
@@ -85,6 +88,8 @@ public class EditDetailsActivity extends AppCompatActivity {
             movieActorInput.setText(movieActors);
             movieRatingInput.setText(movieRating);
             movieReviewInput.setText(movieReview);
+            movieRatingBar.setRating(Integer.parseInt(movieRating));
+
 
         }
 
@@ -100,6 +105,7 @@ public class EditDetailsActivity extends AppCompatActivity {
         String movieActors = movieActorInput.getText().toString();
         int movieRating = Integer.parseInt(movieRatingInput.getText().toString());
         String movieReview = movieReviewInput.getText().toString();
+        int movieRatingTwo = (int) movieRatingBar.getRating();
 
         updateMovie(movieTitle, movieYear, movieDirector, movieActors, movieRating, movieReview);
         Toast.makeText(getApplicationContext(), "Movie Registered Successfully !!", Toast.LENGTH_SHORT).show();
