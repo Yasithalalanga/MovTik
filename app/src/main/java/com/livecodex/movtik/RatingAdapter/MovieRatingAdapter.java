@@ -1,4 +1,4 @@
-package com.livecodex.movtik;
+package com.livecodex.movtik.RatingAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.livecodex.movtik.R;
 
 public class MovieRatingAdapter extends RecyclerView.Adapter<MovieRatingAdapter.ViewHolder> {
 

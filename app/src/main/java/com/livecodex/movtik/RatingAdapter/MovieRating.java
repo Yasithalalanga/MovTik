@@ -1,4 +1,4 @@
-package com.livecodex.movtik;
+package com.livecodex.movtik.RatingAdapter;
 
 public class MovieRating {
 

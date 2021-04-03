@@ -12,12 +12,14 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.livecodex.movtik.RatingAdapter.MovieRating;
+import com.livecodex.movtik.RatingAdapter.MovieRatingAdapter;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
