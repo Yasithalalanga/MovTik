@@ -13,12 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.livecodex.movtik.R;
 
+import java.util.ArrayList;
+
 public class MovieRatingAdapter extends RecyclerView.Adapter<MovieRatingAdapter.ViewHolder> {
 
-    MovieRating[] movieRatings;
+    ArrayList<MovieRating> movieRatings;
     Context context;
 
-    public MovieRatingAdapter(MovieRating[] movieRatings, Context context) {
+    public MovieRatingAdapter(ArrayList<MovieRating> movieRatings, Context context) {
         this.movieRatings = movieRatings;
         this.context = context;
     }
@@ -34,10 +36,10 @@ public class MovieRatingAdapter extends RecyclerView.Adapter<MovieRatingAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final MovieRating movieRating = movieRatings[position];
+        final MovieRating movieRating = movieRatings.get(position);
         holder.movieNameView.setText(movieRating.getMovieName());
         holder.movieRatingView.setText(movieRating.getMovieRating());
-        holder.movieImageView.setImageResource(movieRating.getMovieImage());
+        holder.movieImageView.setImageBitmap(movieRating.getMovieImage());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +57,7 @@ public class MovieRatingAdapter extends RecyclerView.Adapter<MovieRatingAdapter.
 
     @Override
     public int getItemCount() {
-        return movieRatings.length;
+        return movieRatings.size();
     }
 
 

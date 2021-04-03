@@ -1,12 +1,14 @@
 package com.livecodex.movtik.RatingAdapter;
 
+import android.graphics.Bitmap;
+
 public class MovieRating {
 
     private String movieName;
     private String movieRating;
-    private int movieImage;
+    private Bitmap movieImage;
 
-    public MovieRating(String movieName, String movieRating, int movieImage) {
+    public MovieRating(String movieName, String movieRating, Bitmap movieImage) {
         this.movieName = movieName;
         this.movieRating = movieRating;
         this.movieImage = movieImage;
@@ -28,11 +30,11 @@ public class MovieRating {
         this.movieRating = movieRating;
     }
 
-    public int getMovieImage() {
+    public Bitmap getMovieImage() {
         return movieImage;
     }
 
-    public void setMovieImage(int movieImage) {
+    public void setMovieImage(Bitmap movieImage) {
         this.movieImage = movieImage;
     }
 }
