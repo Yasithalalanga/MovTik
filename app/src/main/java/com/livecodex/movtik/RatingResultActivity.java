@@ -1,6 +1,8 @@
 package com.livecodex.movtik;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -23,6 +25,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class RatingResultActivity extends AppCompatActivity {
 
     TextView testResult;
+    RecyclerView recyclerView;
     private String movieSearch;
 
     @Override
@@ -30,12 +33,26 @@ public class RatingResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating_result);
 
-        testResult = findViewById(R.id.testResult);
+       // testResult = findViewById(R.id.testResult);
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        MovieRating[] movieRatings = new MovieRating[]{
+          new MovieRating("Inifinity", "8.8",R.drawable.logo),
+          new MovieRating("Random", "3.0",R.drawable.logo),
+          new MovieRating("Testing", "8.8",R.drawable.logo),
+          new MovieRating("Inifinity", "8.8",R.drawable.logo),
+          new MovieRating("Inifinity", "8.8",R.drawable.logo),
+        };
+
+        MovieRatingAdapter movieRatingAdapter = new MovieRatingAdapter(movieRatings, RatingResultActivity.this);
+        recyclerView.setAdapter(movieRatingAdapter);
 
         Intent ratingSelectedIntent = getIntent();
         movieSearch = ratingSelectedIntent.getStringExtra("MovieRequested");
 
-        testResult.setText(movieSearch);
+       // testResult.setText(movieSearch);
 
         DataSyncTask dataSyncTask = new DataSyncTask();
         dataSyncTask.execute();
