@@ -8,8 +8,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,9 +44,11 @@ public class EditDetailsActivity extends AppCompatActivity {
     EditText movieYearInput;
     EditText movieDirectorInput;
     EditText movieActorInput;
-    EditText movieRatingInput;
     EditText movieReviewInput;
     RatingBar movieRatingBar;
+    Spinner movieFavouriteSpinner;
+
+    String[] favorites_array = {"Not Favourite","Favourite"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +62,16 @@ public class EditDetailsActivity extends AppCompatActivity {
         movieYearInput = findViewById(R.id.editMovieYear_tf);
         movieDirectorInput = findViewById(R.id.editMovieDirector_tf);
         movieActorInput = findViewById(R.id.editMovieActors_tf);
-        movieRatingInput = findViewById(R.id.editMovieRating_tf);
         movieReviewInput = findViewById(R.id.editMovieReview_tf);
         movieRatingBar = findViewById(R.id.ratingBar);
+        movieFavouriteSpinner = findViewById(R.id.favouriteCheck);
+
+        ArrayAdapter<String> adapter= new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, favorites_array);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        if(movieFavouriteSpinner != null){
+            movieFavouriteSpinner.setAdapter(adapter);
+        }
 
         movieData = new MovieData(this);
         updateFields(getMovieDetails());
@@ -81,15 +94,15 @@ public class EditDetailsActivity extends AppCompatActivity {
             String movieActors = cursor.getString(4);
             String movieRating = cursor.getString(5);
             String movieReview = cursor.getString(6);
+            int movieFavourite = cursor.getInt(7);
 
             movieTitleInput.setText(movieTitle);
             movieYearInput.setText(movieYear);
             movieDirectorInput.setText(movieDirector);
             movieActorInput.setText(movieActors);
-            movieRatingInput.setText(movieRating);
             movieReviewInput.setText(movieReview);
             movieRatingBar.setRating(Integer.parseInt(movieRating));
-
+            movieFavouriteSpinner.setSelection(movieFavourite);
 
         }
 
@@ -103,16 +116,20 @@ public class EditDetailsActivity extends AppCompatActivity {
         String movieYear = movieYearInput.getText().toString();
         String movieDirector = movieDirectorInput.getText().toString();
         String movieActors = movieActorInput.getText().toString();
-        int movieRating = Integer.parseInt(movieRatingInput.getText().toString());
         String movieReview = movieReviewInput.getText().toString();
-        int movieRatingTwo = (int) movieRatingBar.getRating();
 
-        updateMovie(movieTitle, movieYear, movieDirector, movieActors, movieRating, movieReview);
-        Toast.makeText(getApplicationContext(), "Movie Registered Successfully !!", Toast.LENGTH_SHORT).show();
+        int movieRating = (int) movieRatingBar.getRating();
+        int movieFavourite = movieFavouriteSpinner.getSelectedItemPosition();
+
+        boolean selectedValue = false;
+        if(movieFavourite == 1) selectedValue = true;
+
+        updateMovie(movieTitle, movieYear, movieDirector, movieActors, movieRating, movieReview,selectedValue);
+        Toast.makeText(getApplicationContext(), "Movie Updates Successfully !!" , Toast.LENGTH_SHORT).show();
 
     }
 
-    private void updateMovie(String movieTitle, String movieYear, String movieDirector, String movieActors, int movieRating, String movieReview) {
+    private void updateMovie(String movieTitle, String movieYear, String movieDirector, String movieActors, int movieRating, String movieReview, boolean movieFavourite) {
 
         try {
             SQLiteDatabase database = movieData.getWritableDatabase();
@@ -123,6 +140,7 @@ public class EditDetailsActivity extends AppCompatActivity {
             values.put(MOVIE_ACTORS, movieActors);
             values.put(MOVIE_RATING,movieRating);
             values.put(MOVIE_REVIEW,movieReview);
+            values.put(MOVIE_FAVOURITES,movieFavourite);
             database.updateWithOnConflict(TABLE_NAME,values,_ID + " =? ",new String[]{currentMovieId},0);
 
         }finally {
