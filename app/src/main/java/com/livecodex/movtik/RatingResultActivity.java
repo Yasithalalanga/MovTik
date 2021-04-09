@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class RatingResultActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     private String movieSearch;
+    Bitmap imageSet;
 
     ArrayList<MovieRating> movieRatings;
 
@@ -44,7 +47,7 @@ public class RatingResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating_result);
 
-       // testResult = findViewById(R.id.testResult);
+        // testResult = findViewById(R.id.testResult);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -54,14 +57,14 @@ public class RatingResultActivity extends AppCompatActivity {
         Intent ratingSelectedIntent = getIntent();
         movieSearch = ratingSelectedIntent.getStringExtra("MovieRequested");
 
-       // testResult.setText(movieSearch);
+        // testResult.setText(movieSearch);
 
         DataSyncTask dataSyncTask = new DataSyncTask();
         dataSyncTask.execute();
 
     }
 
-    public class DataSyncTask extends AsyncTask<String, Void, String>{
+    public class DataSyncTask extends AsyncTask<String, Void, String> {
 
         private static final String API_KEY = "k_iklh8ner";
 
@@ -83,7 +86,7 @@ public class RatingResultActivity extends AppCompatActivity {
                 InputStream inputStream = conn.getInputStream();
                 String contentAsString = convertIsToString(inputStream);
 
-                if(response == HttpsURLConnection.HTTP_OK)
+                if (response == HttpsURLConnection.HTTP_OK)
                     return contentAsString;
                 else
                     return null;
@@ -101,7 +104,7 @@ public class RatingResultActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-            if( s != null){
+            if (s != null) {
 
                 Log.d("OUTPUT STATS", s);
 
@@ -109,15 +112,18 @@ public class RatingResultActivity extends AppCompatActivity {
                     JSONObject jsonObjectReturned = new JSONObject(s);
                     JSONArray resultData = jsonObjectReturned.getJSONArray("results");
 
-                    for(int object = 0; object < resultData.length(); object++){
+                    for (int object = 0; object < resultData.length(); object++) {
 
                         JSONObject movieObject = resultData.getJSONObject(object);
                         String movieTitle = movieObject.getString("title");
                         String movieImageURL = movieObject.getString("image");
 
-                        Bitmap bitmap = getImageBitmap(movieImageURL);
+                        Log.d("OUTPUT STATS", movieObject.toString());
+                        Log.d("IMAGE STREAM", movieImageURL);
 
-                        MovieRating movie = new MovieRating(movieTitle, "10.0",bitmap );
+                        MovieRating movie = new MovieRating(movieTitle, "10.0");
+                        getImageBitmap(movieImageURL, movie);
+                        Log.d("IMAGE", movie.toString());
                         movieRatings.add(movie);
                     }
 
@@ -126,40 +132,35 @@ public class RatingResultActivity extends AppCompatActivity {
 
 
                 } catch (JSONException e) {
-                    Log.d("ERROR","Error in converting to json object " + e.getMessage());
+                    Log.d("ERROR", "Error in converting to json object " + e.getMessage());
                 }
 
-            }else{
+            } else {
                 Toast.makeText(getApplicationContext(), "Movie Name Not Recognised.", Toast.LENGTH_SHORT).show();
                 Log.d("OUTPUT STATS", "Badly Formatted URL");
             }
 
         }
 
-        private Bitmap getImageBitmap(String movieImageURL) {
+        private void getImageBitmap(String movieImageURL, MovieRating movie) {
 
-            final Bitmap[] bitmap = {null};
-
-            Thread imageThread = new Thread(new Runnable() {
+            Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         InputStream imageInputStream = new URL(movieImageURL).openStream();
-                        bitmap[0] = BitmapFactory.decodeStream(imageInputStream);
-
+                        Bitmap imageSet = BitmapFactory.decodeStream(imageInputStream);
+                        movie.setMovieImage(imageSet);
+                        Log.d("IMAGE", imageSet.toString() + " " + movie.getMovieName() + "\n" + movie);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
                 }
-
             });
-            imageThread.start();
+            thread.start();
 
-            return bitmap[0];
         }
-
-
-
 
 
         public String convertIsToString(InputStream inputStream) throws IOException {
@@ -177,7 +178,6 @@ public class RatingResultActivity extends AppCompatActivity {
             return builder.toString();
         }
     }
-
 
 
 }

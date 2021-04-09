@@ -11,4 +11,7 @@
     <string name="favourites">Favourites</string>
     <string name="save">save</string>
     <string name="lookup">lookup</string>
+    <string name="todo">TODO</string>
+    <string name="string_todo" />
+    <string name="plan_it_plat_it">Plan It &amp; Play It</string>
 </resources>

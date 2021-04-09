@@ -8,10 +8,9 @@ public class MovieRating {
     private String movieRating;
     private Bitmap movieImage;
 
-    public MovieRating(String movieName, String movieRating, Bitmap movieImage) {
+    public MovieRating(String movieName, String movieRating) {
         this.movieName = movieName;
         this.movieRating = movieRating;
-        this.movieImage = movieImage;
     }
 
     public String getMovieName() {
@@ -36,5 +35,14 @@ public class MovieRating {
 
     public void setMovieImage(Bitmap movieImage) {
         this.movieImage = movieImage;
+    }
+
+    @Override
+    public String toString() {
+        return "MovieRating{" +
+                "movieName='" + movieName + '\'' +
+                ", movieRating='" + movieRating + '\'' +
+                ", movieImage=" + movieImage +
+                '}';
     }
 }

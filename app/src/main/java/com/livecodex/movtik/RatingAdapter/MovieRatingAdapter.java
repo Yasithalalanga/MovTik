@@ -39,12 +39,12 @@ public class MovieRatingAdapter extends RecyclerView.Adapter<MovieRatingAdapter.
         final MovieRating movieRating = movieRatings.get(position);
         holder.movieNameView.setText(movieRating.getMovieName());
         holder.movieRatingView.setText(movieRating.getMovieRating());
-        holder.movieImageView.setImageBitmap(movieRating.getMovieImage());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, movieRating.getMovieName(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, movieRating.getMovieName(), Toast.LENGTH_SHORT).show();
+                holder.movieImageView.setImageBitmap(movieRating.getMovieImage());
 
                 if(holder.movieImageView.getVisibility() == View.VISIBLE){
                     holder.movieImageView.setVisibility(View.GONE);
