@@ -1,5 +1,6 @@
 package com.livecodex.movtik;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
@@ -48,6 +49,36 @@ public class RegisterMovieActivity extends AppCompatActivity {
         movieReviewInput = findViewById(R.id.movieReview_tf);
 
         movieData = new MovieData(this);
+
+        if(savedInstanceState != null){
+            String[] inputData = savedInstanceState.getStringArray("movieInputData");
+
+            if(movieTitleInput != null) movieTitleInput.setText(inputData[0]);
+            if(movieYearInput  != null) movieYearInput.setText(inputData[1]);
+            if(movieDirectorInput != null) movieDirectorInput.setText(inputData[2]);
+            if(movieActorInput != null) movieActorInput.setText(inputData[3]);
+            if(movieRatingInput!= null) movieRatingInput.setText(inputData[4]);
+            if(movieReviewInput!= null) movieReviewInput.setText(inputData[5]);
+
+        }
+
+    }
+
+    // Save Instance Data
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        String[] inputData = new String[]{
+                String.valueOf(movieTitleInput.getText()),
+                String.valueOf(movieYearInput.getText()),
+                String.valueOf(movieDirectorInput.getText()),
+                String.valueOf(movieActorInput.getText()),
+                String.valueOf(movieRatingInput.getText()),
+                String.valueOf(movieReviewInput.getText())
+        };
+
+        outState.putStringArray("movieInputData", inputData);
 
     }
 

@@ -1,7 +1,5 @@
 package com.livecodex.movtik;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,18 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Spinner;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.livecodex.movtik.services.MovieData;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.livecodex.movtik.services.MovieData;
 
 import static android.provider.BaseColumns._ID;
 import static com.livecodex.movtik.services.Constants.MOVIE_ACTORS;
@@ -34,9 +29,8 @@ import static com.livecodex.movtik.services.Constants.TABLE_NAME;
 
 public class EditDetailsActivity extends AppCompatActivity {
 
-    private static final String[] FROM = { _ID, MOVIE_TITLE};
     private static final String ORDER_BY = MOVIE_TITLE + " ASC";
-    private MovieData movieData;;
+    private MovieData movieData;
     private String editMovie;
     private String currentMovieId;
 
@@ -66,7 +60,28 @@ public class EditDetailsActivity extends AppCompatActivity {
         movieRatingBar = findViewById(R.id.ratingBar);
         movieFavouriteSpinner = findViewById(R.id.favouriteCheck);
 
-        ArrayAdapter<String> adapter= new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, favorites_array);
+        if(savedInstanceState != null){
+            String[] inputData = savedInstanceState.getStringArray("movieEditDetails");
+            int rating = savedInstanceState.getInt("rating");
+            int selected = savedInstanceState.getInt("selection");
+
+            if(movieTitleInput != null) movieTitleInput.setText(inputData[0]);
+            if(movieYearInput  != null) movieYearInput.setText(inputData[1]);
+            if(movieDirectorInput != null) movieDirectorInput.setText(inputData[2]);
+            if(movieActorInput != null) movieActorInput.setText(inputData[3]);
+            if(movieReviewInput!= null) movieReviewInput.setText(inputData[4]);
+
+            if(movieRatingBar != null){
+                movieRatingBar.setRating(rating);
+            }
+
+            if(movieFavouriteSpinner != null){
+                movieFavouriteSpinner.setSelection(selected);
+            }
+
+        }
+
+        ArrayAdapter<String> adapter= new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, favorites_array);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         if(movieFavouriteSpinner != null){
@@ -75,6 +90,25 @@ public class EditDetailsActivity extends AppCompatActivity {
 
         movieData = new MovieData(this);
         updateFields(getMovieDetails());
+    }
+
+    // Save Instance Data
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        String[] inputData = new String[]{
+                String.valueOf(movieTitleInput.getText()),
+                String.valueOf(movieYearInput.getText()),
+                String.valueOf(movieDirectorInput.getText()),
+                String.valueOf(movieActorInput.getText()),
+                String.valueOf(movieReviewInput.getText())
+        };
+
+        outState.putStringArray("movieEditDetails", inputData);
+        outState.putInt("rating", (int) movieRatingBar.getRating());
+        outState.putInt("selection", movieFavouriteSpinner.getSelectedItemPosition());
+
     }
 
     private Cursor getMovieDetails(){

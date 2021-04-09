@@ -1,5 +1,6 @@
 package com.livecodex.movtik;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
@@ -38,6 +39,22 @@ public class SearchActivity extends AppCompatActivity {
         searchInput = findViewById(R.id.search_tf);
         searchResultList = findViewById(R.id.searchResultList);
         movieData = new MovieData(this);
+
+        if(savedInstanceState != null){
+            String searchText = savedInstanceState.getString("searchText");
+
+            if(searchInput != null){
+                searchInput.setText(searchText);
+            }
+        }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("searchText", String.valueOf(searchInput.getText()));
 
     }
 
