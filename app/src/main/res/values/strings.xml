@@ -14,4 +14,11 @@
     <string name="todo">TODO</string>
     <string name="string_todo" />
     <string name="plan_it_plat_it">Plan It &amp; Play It</string>
+    <string name="update_txt">Update</string>
+    <string name="movie_review">Movie Review</string>
+    <string name="movie_actors">Movie Actors</string>
+    <string name="movie_director">Movie Director</string>
+    <string name="movie_year">Movie Year</string>
+    <string name="movie_title">Movie Title</string>
+    <string name="edit_details">Edit Details</string>
 </resources>

@@ -125,7 +125,9 @@ public class EditDetailsActivity extends AppCompatActivity {
         if(movieFavourite == 1) selectedValue = true;
 
         updateMovie(movieTitle, movieYear, movieDirector, movieActors, movieRating, movieReview,selectedValue);
-        Toast.makeText(getApplicationContext(), "Movie Updates Successfully !!" , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), movieTitle + " Movie Updated Successfully !!" , Toast.LENGTH_SHORT).show();
+
+        finish();
 
     }
 

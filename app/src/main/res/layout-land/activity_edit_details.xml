@@ -4,27 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterMovieActivity">
+    tools:context=".EditDetailsActivity">
 
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="65dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/register_headline"
+                android:id="@+id/editMovie_headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="@string/register_movie"
+                android:text="@string/edit_details"
                 android:textAllCaps="true"
                 android:textColor="@color/light_red"
                 android:textSize="20sp"
@@ -33,9 +35,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
             <EditText
-                android:id="@+id/movieTitle_tf"
+                android:id="@+id/editMovieTitle_tf"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
@@ -43,120 +44,145 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginEnd="50dp"
                 android:layout_marginRight="50dp"
+                android:autofillHints=""
                 android:background="@drawable/custom_input"
                 android:drawableStart="@drawable/ic_movie_icon"
                 android:drawableLeft="@drawable/ic_movie_icon"
                 android:drawablePadding="12dp"
                 android:ems="10"
-                android:hint="Movie Title"
+                android:hint="@string/movie_title"
                 android:inputType="textShortMessage|textLongMessage|text"
                 android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/register_headline" />
+                app:layout_constraintTop_toBottomOf="@+id/editMovie_headline" />
 
             <EditText
-                android:id="@+id/movieYear_tf"
+                android:id="@+id/editMovieYear_tf"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="50dp"
                 android:layout_marginRight="50dp"
+                android:autofillHints=""
                 android:background="@drawable/custom_input"
                 android:drawableStart="@drawable/ic_calendar_icon"
                 android:drawableLeft="@drawable/ic_calendar_icon"
                 android:drawablePadding="12dp"
                 android:ems="10"
-                android:hint="Movie Year"
+                android:hint="@string/movie_year"
                 android:inputType="date"
                 android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movieTitle_tf" />
+                app:layout_constraintTop_toBottomOf="@+id/editMovieTitle_tf" />
 
             <EditText
-                android:id="@+id/movieDirector_tf"
+                android:id="@+id/editMovieDirector_tf"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="50dp"
                 android:layout_marginRight="50dp"
+                android:autofillHints=""
                 android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/ic_director_icon"
                 android:drawableLeft="@drawable/ic_director_icon"
                 android:drawablePadding="12dp"
                 android:ems="10"
-                android:hint="Movie Director"
+                android:hint="@string/movie_director"
                 android:inputType="textPersonName"
                 android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movieYear_tf" />
+                app:layout_constraintTop_toBottomOf="@+id/editMovieYear_tf" />
 
             <EditText
-                android:id="@+id/movieActors_tf"
+                android:id="@+id/editMovieActors_tf"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="50dp"
                 android:layout_marginRight="50dp"
+                android:autofillHints=""
                 android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/ic_actor_icon"
                 android:drawableLeft="@drawable/ic_actor_icon"
                 android:drawablePadding="12dp"
                 android:ems="10"
                 android:gravity="start|top"
-                android:hint="Movie Actors"
+                android:hint="@string/movie_actors"
                 android:inputType="textMultiLine"
                 android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movieDirector_tf" />
+                app:layout_constraintTop_toBottomOf="@+id/editMovieDirector_tf" />
 
             <EditText
-                android:id="@+id/movieRating_tf"
+                android:id="@+id/editMovieReview_tf"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="50dp"
                 android:layout_marginRight="50dp"
+                android:autofillHints=""
                 android:background="@drawable/custom_input"
-                android:drawableLeft="@drawable/ic_rating_icon"
-                android:drawablePadding="12dp"
-                android:ems="10"
-                android:hint="Movie Rating (1 -10)"
-                android:inputType="numberSigned"
-                android:padding="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movieActors_tf" />
-
-            <EditText
-                android:id="@+id/movieReview_tf"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="50dp"
-                android:layout_marginRight="50dp"
-                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/ic_review_icon"
                 android:drawableLeft="@drawable/ic_review_icon"
                 android:drawablePadding="12dp"
                 android:ems="10"
                 android:gravity="start|top"
-                android:hint="Movie Review"
+                android:hint="@string/movie_review"
                 android:inputType="textMultiLine"
                 android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movieRating_tf" />
+                app:layout_constraintTop_toBottomOf="@+id/editMovieActors_tf" />
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                style="@style/Widget.AppCompat.RatingBar.Indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginRight="50dp"
+                android:isIndicator="false"
+                android:numStars="10"
+                android:stepSize="1.0"
+                android:theme="@style/RatingBar"
+                app:layout_constraintBottom_toTopOf="@+id/save_btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.49"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/favouriteCheck" />
+
+            <Spinner
+                android:id="@+id/favouriteCheck"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/favourites"
+                app:layout_constraintBottom_toTopOf="@+id/ratingBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editMovieReview_tf"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             <Button
                 android:id="@+id/save_btn"
@@ -168,15 +194,13 @@
                 android:layout_marginEnd="50dp"
                 android:layout_marginRight="50dp"
                 android:layout_marginBottom="16dp"
-                android:onClick="saveData"
-                android:text="Save"
+                android:onClick="updateMovieDetails"
+                android:text="@string/update_txt"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movieReview_tf" />
+                app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
