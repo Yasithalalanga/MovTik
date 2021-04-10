@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         app:cardElevation="10dp"
         app:cardCornerRadius="5dp"
-        android:layout_margin="20dp"
+        android:layout_margin="15dp"
         android:background="@color/white">
 
         <LinearLayout
@@ -23,12 +23,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/logo"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
                 android:visibility="gone"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/cardMovieName"

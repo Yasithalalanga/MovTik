@@ -28,11 +28,11 @@ import java.util.ArrayList;
 public class RatingResultActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    private String movieSearch;
-    Bitmap imageSet;
-    private static final String API_KEY = "k_iklh8ner";
+    LoadingDialog loadingDialog;
+//    private static final String API_KEY = "k_iklh8ner";
+    private static final String API_KEY = "k_1vtxu1i6";
 
-    ArrayList<MovieRating> movieRatings;
+    //ArrayList<MovieRating> movieRatings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +44,13 @@ public class RatingResultActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        movieRatings = new ArrayList<>();
+        loadingDialog = new LoadingDialog(RatingResultActivity.this);
+        loadingDialog.startDialog();
+
+        //movieRatings = new ArrayList<>();
 
         Intent ratingSelectedIntent = getIntent();
-        movieSearch = ratingSelectedIntent.getStringExtra("MovieRequested");
+        String movieSearch = ratingSelectedIntent.getStringExtra("MovieRequested");
 
         // testResult.setText(movieSearch);
 
@@ -73,9 +76,11 @@ public class RatingResultActivity extends AppCompatActivity {
                     String contentAsString = convertIsToString(inputStream);
 
                     JSONObject jsonReturned = new JSONObject(contentAsString);
+                    Log.d("OUTPUT STATS", String.valueOf(jsonReturned));
+
                     JSONArray resultData = jsonReturned.getJSONArray("results");
 
-                    Log.d("OUTPUT STATS", String.valueOf(resultData));
+                    //Log.d("OUTPUT STATS", String.valueOf(resultData));
 
                     for (int object = 0; object < resultData.length(); object++) {
 
@@ -104,6 +109,7 @@ public class RatingResultActivity extends AppCompatActivity {
                         //Toast.makeText(getApplicationContext(), moviesAvailable.get(0).toString(),Toast.LENGTH_SHORT).show();
                         MovieRatingAdapter movieRatingAdapter = new MovieRatingAdapter(moviesAvailable, RatingResultActivity.this);
                         recyclerView.setAdapter(movieRatingAdapter);
+                        loadingDialog.dismissDialog();
                     }
                 });
 
