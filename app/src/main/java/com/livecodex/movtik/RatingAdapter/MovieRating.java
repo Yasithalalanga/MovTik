@@ -4,13 +4,26 @@ import android.graphics.Bitmap;
 
 public class MovieRating {
 
+    private String movieId;
     private String movieName;
-    private String movieRating;
     private Bitmap movieImage;
+    private String movieRating;
+    private String movieImageUrl;
 
-    public MovieRating(String movieName, String movieRating) {
+    public MovieRating(String movieId, String movieName, String movieImageUrl, String movieRating, Bitmap movieImage) {
+        this.movieId = movieId;
         this.movieName = movieName;
+        this.movieImageUrl = movieImageUrl;
         this.movieRating = movieRating;
+        this.movieImage = movieImage;
+    }
+
+    public String getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(String movieId) {
+        this.movieId = movieId;
     }
 
     public String getMovieName() {
@@ -21,14 +34,6 @@ public class MovieRating {
         this.movieName = movieName;
     }
 
-    public String getMovieRating() {
-        return movieRating;
-    }
-
-    public void setMovieRating(String movieRating) {
-        this.movieRating = movieRating;
-    }
-
     public Bitmap getMovieImage() {
         return movieImage;
     }
@@ -37,12 +42,30 @@ public class MovieRating {
         this.movieImage = movieImage;
     }
 
+    public String getMovieRating() {
+        return movieRating;
+    }
+
+    public void setMovieRating(String movieRating) {
+        this.movieRating = movieRating;
+    }
+
+    public String getMovieImageUrl() {
+        return movieImageUrl;
+    }
+
+    public void setMovieImageUrl(String movieImageUrl) {
+        this.movieImageUrl = movieImageUrl;
+    }
+
     @Override
     public String toString() {
         return "MovieRating{" +
-                "movieName='" + movieName + '\'' +
-                ", movieRating='" + movieRating + '\'' +
+                "movieId='" + movieId + '\'' +
+                ", movieName='" + movieName + '\'' +
                 ", movieImage=" + movieImage +
+                ", movieRating='" + movieRating + '\'' +
+                ", movieImageUrl='" + movieImageUrl + '\'' +
                 '}';
     }
 }
