@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.provider.BaseColumns._ID;
+import static com.livecodex.movtik.services.Constants.MOVIE_ACTORS;
+import static com.livecodex.movtik.services.Constants.MOVIE_DIRECTOR;
 import static com.livecodex.movtik.services.Constants.MOVIE_FAVOURITES;
 import static com.livecodex.movtik.services.Constants.MOVIE_TITLE;
 import static com.livecodex.movtik.services.Constants.TABLE_NAME;
@@ -71,7 +73,7 @@ public class SearchActivity extends AppCompatActivity {
     private Cursor searchMovies(String searchText) {
 
         SQLiteDatabase database = movieData.getReadableDatabase();
-        Cursor cursor = database.query(TABLE_NAME, FROM,MOVIE_TITLE + " LIKE ?",new String[] {"%"+ searchText+ "%" }, null, null, ORDER_BY);
+        Cursor cursor = database.query(TABLE_NAME, FROM,MOVIE_TITLE + "||" + MOVIE_ACTORS+ "||" + MOVIE_DIRECTOR + " LIKE ?",new String[] {"%"+ searchText+ "%" }, null, null, ORDER_BY);
         return cursor;
     }
 
