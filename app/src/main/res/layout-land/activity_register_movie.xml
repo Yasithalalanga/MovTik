@@ -71,6 +71,7 @@
                 android:ems="10"
                 android:hint="Movie Year"
                 android:inputType="date"
+                android:maxLength="4"
                 android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

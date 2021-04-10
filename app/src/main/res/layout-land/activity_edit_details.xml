@@ -72,6 +72,7 @@
                 android:drawableLeft="@drawable/ic_calendar_icon"
                 android:drawablePadding="12dp"
                 android:ems="10"
+                android:maxLength="4"
                 android:hint="@string/movie_year"
                 android:inputType="date"
                 android:padding="10dp"

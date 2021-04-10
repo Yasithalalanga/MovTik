@@ -2,18 +2,24 @@ package com.livecodex.movtik;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
+import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.livecodex.movtik.services.MovieData;
+
+import java.text.DateFormat;
+import java.util.Calendar;
 
 import static android.provider.BaseColumns._ID;
 import static com.livecodex.movtik.services.Constants.MOVIE_ACTORS;
@@ -25,7 +31,7 @@ import static com.livecodex.movtik.services.Constants.MOVIE_TITLE;
 import static com.livecodex.movtik.services.Constants.MOVIE_YEAR;
 import static com.livecodex.movtik.services.Constants.TABLE_NAME;
 
-public class RegisterMovieActivity extends AppCompatActivity {
+public class RegisterMovieActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private MovieData movieData;
 
@@ -61,6 +67,14 @@ public class RegisterMovieActivity extends AppCompatActivity {
             if(movieReviewInput!= null) movieReviewInput.setText(inputData[5]);
 
         }
+
+        movieYearInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment datePicker = new DatePickerFragment();
+                datePicker.show(getSupportFragmentManager(), "date picker");
+            }
+        });
 
     }
 
@@ -121,5 +135,18 @@ public class RegisterMovieActivity extends AppCompatActivity {
             movieData.close();
         }
 
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+
+        String selectedYear = DateFormat.getDateInstance(DateFormat.YEAR_FIELD).format(calendar.getTime());
+
+        movieYearInput.setText(selectedYear);
     }
 }
