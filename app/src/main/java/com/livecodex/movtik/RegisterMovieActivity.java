@@ -4,11 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -33,6 +36,11 @@ import static com.livecodex.movtik.services.Constants.TABLE_NAME;
 
 public class RegisterMovieActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
+    /*
+    * user can register a movie using this activity
+    * Registered Movie will be added to the database
+    */
+
     private MovieData movieData;
 
     EditText movieTitleInput;
@@ -42,6 +50,7 @@ public class RegisterMovieActivity extends AppCompatActivity implements DatePick
     EditText movieRatingInput;
     EditText movieReviewInput;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,11 +77,21 @@ public class RegisterMovieActivity extends AppCompatActivity implements DatePick
 
         }
 
-        movieYearInput.setOnClickListener(new View.OnClickListener() {
+        movieYearInput.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
             @Override
-            public void onClick(View view) {
-                DialogFragment datePicker = new DatePickerFragment();
-                datePicker.show(getSupportFragmentManager(), "date picker");
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                final int DRAWABLE_RIGHT = 2;
+
+                if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    if(motionEvent.getRawX() >= (movieYearInput.getRight() - movieYearInput.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width()))  {
+
+                        DialogFragment datePicker = new DatePickerFragment();
+                        datePicker.show(getSupportFragmentManager(), "date picker");
+                        return true;
+                    }
+                }
+                return false;
             }
         });
 
@@ -99,22 +118,46 @@ public class RegisterMovieActivity extends AppCompatActivity implements DatePick
     // Getting data from tht user and saving it in the sqLite database
     public void saveData(View view) {
 
-        String movieTitle = movieTitleInput.getText().toString();
-        String movieYear = movieYearInput.getText().toString();
-        String movieDirector = movieDirectorInput.getText().toString();
-        String movieActors = movieActorInput.getText().toString();
-        int movieRating = Integer.parseInt(movieRatingInput.getText().toString());
-        String movieReview = movieReviewInput.getText().toString();
+        String movieTitle = movieTitleInput.getText().toString().trim();
+        String movieYear = movieYearInput.getText().toString().trim();
+        String movieDirector = movieDirectorInput.getText().toString().trim();
+        String movieActors = movieActorInput.getText().toString().trim();
+        String movieRating = movieRatingInput.getText().toString().trim();
+        String movieReview = movieReviewInput.getText().toString().trim();
 
-        registerMovie(movieTitle, movieYear, movieDirector, movieActors, movieRating, movieReview);
-        Toast.makeText(getApplicationContext(), "Movie Registered Successfully !!", Toast.LENGTH_SHORT).show();
+        boolean validated = true;
 
-        movieYearInput.setText("");
-        movieActorInput.setText("");
-        movieTitleInput.setText("");
-        movieRatingInput.setText("");
-        movieReviewInput.setText("");
-        movieDirectorInput.setText("");
+        if(movieTitle.isEmpty() || movieYear.isEmpty() || movieDirector.isEmpty() || movieActors.isEmpty() || movieRating.isEmpty() || movieReview.isEmpty()){
+            validated = false;
+            Toast.makeText(getApplicationContext(), "All the Fields are Required", Toast.LENGTH_SHORT).show();
+        }else{
+
+            if(Integer.parseInt(movieYear) < 1895){
+                validated = false;
+                movieYearInput.requestFocus();
+                movieYearInput.setError("Year Should be greater than 1895");
+
+            }
+
+            if(Integer.parseInt(movieRating) < 1 || Integer.parseInt(movieRating) > 10 ){
+                validated = false;
+                movieRatingInput.requestFocus();
+                movieRatingInput.setError("Rating Should be in range 1 - 10");
+            }
+        }
+
+        if(validated) {
+
+            registerMovie(movieTitle, movieYear, movieDirector, movieActors, Integer.parseInt(movieRating), movieReview);
+            Toast.makeText(getApplicationContext(), "Movie Registered Successfully !!", Toast.LENGTH_SHORT).show();
+
+            movieYearInput.setText("");
+            movieActorInput.setText("");
+            movieTitleInput.setText("");
+            movieRatingInput.setText("");
+            movieReviewInput.setText("");
+            movieDirectorInput.setText("");
+        }
 
     }
 
@@ -145,8 +188,7 @@ public class RegisterMovieActivity extends AppCompatActivity implements DatePick
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, day);
 
-        String selectedYear = DateFormat.getDateInstance(DateFormat.YEAR_FIELD).format(calendar.getTime());
-
-        movieYearInput.setText(selectedYear);
+        String Year = String.valueOf(calendar.get(Calendar.YEAR));
+        movieYearInput.setText(Year);
     }
 }

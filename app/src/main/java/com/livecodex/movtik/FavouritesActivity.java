@@ -23,6 +23,11 @@ import static com.livecodex.movtik.services.Constants.TABLE_NAME;
 
 public class FavouritesActivity extends AppCompatActivity {
 
+    /*
+    * Shows all the Favourite Movies
+    * Unchecked Movies will be removed from favourites
+    */
+
     private static final String[] FROM = { _ID, MOVIE_TITLE};
     private static final String ORDER_BY = MOVIE_TITLE + " ASC";
     private MovieData movieData;
@@ -52,11 +57,8 @@ public class FavouritesActivity extends AppCompatActivity {
 
     private Cursor getMovies(){
 
-        String[] updateArgs = new String[1];
-        updateArgs[0] = String.valueOf(1);
-
         SQLiteDatabase database = movieData.getReadableDatabase();
-        Cursor cursor = database.query(TABLE_NAME, FROM,MOVIE_FAVOURITES +" =? ", updateArgs, null, null, ORDER_BY);
+        Cursor cursor = database.query(TABLE_NAME, FROM,MOVIE_FAVOURITES +" =? ", new String[]{"1"}, null, null, ORDER_BY);
         return cursor;
     }
 
@@ -78,14 +80,11 @@ public class FavouritesActivity extends AppCompatActivity {
 
     public void updateTable(String movieName, boolean value){
 
-        String[] whereArgs = new String[1];
-        whereArgs[0] = movieName;
-
         try {
-            SQLiteDatabase database = movieData.getReadableDatabase();
+            SQLiteDatabase database = movieData.getWritableDatabase();
             ContentValues updatedValues = new ContentValues();
             updatedValues.put(MOVIE_FAVOURITES, value);
-            database.updateWithOnConflict(TABLE_NAME,updatedValues,MOVIE_TITLE + " =? ",whereArgs,0);
+            database.updateWithOnConflict(TABLE_NAME,updatedValues,MOVIE_TITLE + " =? ",new String[]{movieName},0);
 
         }finally {
             movieData.close();

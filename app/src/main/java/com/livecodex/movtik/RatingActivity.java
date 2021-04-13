@@ -23,6 +23,11 @@ import static com.livecodex.movtik.services.Constants.TABLE_NAME;
 
 public class RatingActivity extends AppCompatActivity {
 
+    /*
+    * Shows all the movies in the database
+    * Selected will be send to a new Intent
+    */
+
     private static final String[] FROM = { _ID, MOVIE_TITLE};
     private static final String ORDER_BY = MOVIE_TITLE + " ASC";
 

@@ -23,6 +23,11 @@ import static com.livecodex.movtik.services.Constants.TABLE_NAME;
 
 public class EditMovieActivity extends AppCompatActivity {
 
+    /*
+    * Show all the movies once clicked on will be
+    * moved to a new intent to edit the movie Details
+    */
+
     private static final String[] FROM = { _ID, MOVIE_TITLE};
     private static final String ORDER_BY = MOVIE_TITLE + " ASC";
 

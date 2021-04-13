@@ -17,6 +17,11 @@ import java.util.ArrayList;
 
 public class MovieRatingAdapter extends RecyclerView.Adapter<MovieRatingAdapter.ViewHolder> {
 
+    /*
+    * Movie Rating adapter used to Populate RecyclerView
+    * MovieRating Objects are used to populated
+    */
+
     ArrayList<MovieRating> movieRatings;
     Context context;
 

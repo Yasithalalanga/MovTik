@@ -27,19 +27,22 @@ import java.util.ArrayList;
 
 public class RatingResultActivity extends AppCompatActivity {
 
+    /*
+    * Gets the selected the movie Name
+    * Searched in IMDB Databases and results will be shown to user
+    */
+
     RecyclerView recyclerView;
     LoadingDialog loadingDialog;
 //    private static final String API_KEY = "k_iklh8ner";
     private static final String API_KEY = "k_1vtxu1i6";
 
-    //ArrayList<MovieRating> movieRatings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating_result);
 
-        // testResult = findViewById(R.id.testResult);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -47,12 +50,10 @@ public class RatingResultActivity extends AppCompatActivity {
         loadingDialog = new LoadingDialog(RatingResultActivity.this);
         loadingDialog.startDialog();
 
-        //movieRatings = new ArrayList<>();
 
         Intent ratingSelectedIntent = getIntent();
         String movieSearch = ratingSelectedIntent.getStringExtra("MovieRequested");
 
-        // testResult.setText(movieSearch);
 
         searchInIMDB(movieSearch.trim());
 
@@ -60,6 +61,7 @@ public class RatingResultActivity extends AppCompatActivity {
     }
 
     private void searchInIMDB(String movieName) {
+
 
         ArrayList<MovieRating> moviesAvailable = new ArrayList<>();
 
@@ -80,7 +82,6 @@ public class RatingResultActivity extends AppCompatActivity {
 
                     JSONArray resultData = jsonReturned.getJSONArray("results");
 
-                    //Log.d("OUTPUT STATS", String.valueOf(resultData));
 
                     for (int object = 0; object < resultData.length(); object++) {
 

@@ -12,6 +12,10 @@ import java.util.Calendar;
 
 public class DatePickerFragment extends DialogFragment {
 
+    /*
+    * Date Picker Fragment Time
+    */
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -19,6 +23,7 @@ public class DatePickerFragment extends DialogFragment {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
+
         return new DatePickerDialog(getActivity(), (DatePickerDialog.OnDateSetListener) getActivity(),year,month,day);
     }
 }

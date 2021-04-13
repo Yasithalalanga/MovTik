@@ -4,6 +4,11 @@ import android.graphics.Bitmap;
 
 public class MovieRating {
 
+    /*
+    * stored Movie Rating Data
+    * Used to populate the recycler view in ratings
+    */
+
     private String movieId;
     private String movieName;
     private Bitmap movieImage;

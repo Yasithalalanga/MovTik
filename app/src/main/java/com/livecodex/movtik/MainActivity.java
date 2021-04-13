@@ -8,6 +8,12 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
+    /*
+     * Main Dashboard where the user an navigate to
+     * specific functions
+     */
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

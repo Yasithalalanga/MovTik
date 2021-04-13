@@ -1,12 +1,16 @@
 package com.livecodex.movtik;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Spinner;
@@ -14,8 +18,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import com.livecodex.movtik.services.MovieData;
+
+import java.util.Calendar;
 
 import static android.provider.BaseColumns._ID;
 import static com.livecodex.movtik.services.Constants.MOVIE_ACTORS;
@@ -27,7 +34,13 @@ import static com.livecodex.movtik.services.Constants.MOVIE_TITLE;
 import static com.livecodex.movtik.services.Constants.MOVIE_YEAR;
 import static com.livecodex.movtik.services.Constants.TABLE_NAME;
 
-public class EditDetailsActivity extends AppCompatActivity {
+public class EditDetailsActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+
+    /*
+     * Receives movie title from the EditMovie Activity
+     * Search and get the details of the movie
+     * User can change the details and update the movie
+     */
 
     private static final String ORDER_BY = MOVIE_TITLE + " ASC";
     private MovieData movieData;
@@ -44,6 +57,7 @@ public class EditDetailsActivity extends AppCompatActivity {
 
     String[] favorites_array = {"Not Favourite","Favourite"};
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +104,26 @@ public class EditDetailsActivity extends AppCompatActivity {
 
         movieData = new MovieData(this);
         updateFields(getMovieDetails());
+
+        movieYearInput.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                final int DRAWABLE_RIGHT = 2;
+
+                if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    if(motionEvent.getRawX() >= (movieYearInput.getRight() - movieYearInput.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width()))  {
+
+                        DialogFragment datePicker = new DatePickerFragment();
+                        datePicker.show(getSupportFragmentManager(), "date picker");
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+
     }
 
     // Save Instance Data
@@ -155,13 +189,35 @@ public class EditDetailsActivity extends AppCompatActivity {
         int movieRating = (int) movieRatingBar.getRating();
         int movieFavourite = movieFavouriteSpinner.getSelectedItemPosition();
 
+        boolean validated = true;
+
+        if(movieTitle.isEmpty() || movieYear.isEmpty() || movieDirector.isEmpty() || movieActors.isEmpty() || movieRating == 0 || movieReview.isEmpty()){
+            validated = false;
+            Toast.makeText(getApplicationContext(), "All the Fields are Required", Toast.LENGTH_SHORT).show();
+        }else{
+
+            if(Integer.parseInt(movieYear) < 1895){
+                validated = false;
+                movieYearInput.requestFocus();
+                movieYearInput.setError("Year Should be greater than 1895");
+
+            }
+
+            if(movieRating < 1 || movieRating > 10 ){
+                validated = false;
+                movieRatingBar.requestFocus();
+                Toast.makeText(getApplicationContext(), "Rating Should be in range 1 - 10",Toast.LENGTH_SHORT).show();
+            }
+        }
+
         boolean selectedValue = false;
         if(movieFavourite == 1) selectedValue = true;
 
-        updateMovie(movieTitle, movieYear, movieDirector, movieActors, movieRating, movieReview,selectedValue);
-        Toast.makeText(getApplicationContext(), movieTitle + " Movie Updated Successfully !!" , Toast.LENGTH_SHORT).show();
-
-        finish();
+        if(validated) {
+            updateMovie(movieTitle, movieYear, movieDirector, movieActors, movieRating, movieReview, selectedValue);
+            Toast.makeText(getApplicationContext(), movieTitle + " Movie Updated Successfully !!", Toast.LENGTH_SHORT).show();
+            finish();
+        }
 
     }
 
@@ -183,5 +239,17 @@ public class EditDetailsActivity extends AppCompatActivity {
             movieData.close();
         }
 
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+
+        String Year = String.valueOf(calendar.get(Calendar.YEAR));
+        movieYearInput.setText(Year);
     }
 }

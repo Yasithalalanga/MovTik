@@ -26,6 +26,12 @@ import static com.livecodex.movtik.services.Constants.TABLE_NAME;
 
 public class SearchActivity extends AppCompatActivity {
 
+    /*
+    * Search activity is used to search for movies in the database
+    * searched under movie name, actors and director
+    * results will be shown to the user
+    */
+
     private static final String[] FROM = { _ID, MOVIE_TITLE};
     private static final String ORDER_BY = MOVIE_TITLE + " ASC";
 

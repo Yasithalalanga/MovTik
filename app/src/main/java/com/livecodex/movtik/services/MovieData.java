@@ -16,6 +16,11 @@ import static com.livecodex.movtik.services.Constants.TABLE_NAME;
 
 public class MovieData extends SQLiteOpenHelper {
 
+    /*
+    * Creating SQLite Database to store Movie Details
+    * Table Name : Movies
+    */
+
     private static final String DB_NAME = "movieRecords.db";
     private static final int DB_VERSION = 3;
 
